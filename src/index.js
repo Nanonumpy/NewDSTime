@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 window.onload = function () {
     dispTime();
@@ -11,7 +11,7 @@ function dispTime() {
     var month = current.getMonth();
     //calculate the offset here
     //spring forward
-    if (month >= 11 || month < 2) {
+    if (month >= 10 || month < 2) {
         var endDate = new Date(current.getFullYear() + 1, 2, 1);
         var startDate = new Date(current.getFullYear(), 10, 1);
         var totalMillis = (endDate.getTime() - startDate.getTime());
@@ -21,7 +21,7 @@ function dispTime() {
         current = startDate;
     }
     //fall back
-    else if (month >= 2 && month < 11) {
+    else if (month >= 2 && month < 10) {
         var endDate = new Date(current.getFullYear(), 10, 1);
         var startDate = new Date(current.getFullYear(), 2, 1);
         var totalMillis = (endDate.getTime() - startDate.getTime());

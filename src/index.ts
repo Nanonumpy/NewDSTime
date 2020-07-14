@@ -15,7 +15,7 @@ function dispTime():void
 
     //calculate the offset here
     //spring forward
-    if(month >= 11 || month < 2)
+    if(month >= 10 || month < 2)
     {
         let endDate:Date = new Date(current.getFullYear()+1,2,1)
         let startDate:Date = new Date(current.getFullYear(),10,1)
@@ -27,7 +27,7 @@ function dispTime():void
     }
 
     //fall back
-    else if(month >= 2 && month < 11)
+    else if(month >= 2 && month < 10)
     {
         let endDate:Date = new Date(current.getFullYear(),10,1)
         let startDate:Date = new Date(current.getFullYear(),2,1)
