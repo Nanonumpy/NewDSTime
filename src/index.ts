@@ -7,6 +7,23 @@ window.onload = () =>
 
 window.setInterval(dispTime, 999)
 
+//gives the date of the specified Sunday in the specified month (January = 0)
+function getSunday(month:number, which:number):number
+{
+    let day:number = 1
+    let checkDate = new Date(new Date().getFullYear(),month,day)
+    let loop:number = 0
+    while(loop < which)
+    {
+        while(checkDate.getDay() != 0)
+        {
+            day++
+            checkDate.setDate(day)
+        }
+        loop++
+    }
+    return day
+}
 function dispTime():void
 {
     var current:Date = new Date()
@@ -17,8 +34,8 @@ function dispTime():void
     //spring forward
     if(month >= 10 || month < 2)
     {
-        let endDate:Date = new Date(current.getFullYear()+1,2,1)
-        let startDate:Date = new Date(current.getFullYear(),10,1)
+        let endDate:Date = new Date(current.getFullYear()+1,2,getSunday(2,2))
+        let startDate:Date = new Date(current.getFullYear(),10,getSunday(10,1))
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
@@ -29,8 +46,8 @@ function dispTime():void
     //fall back
     else if(month >= 2 && month < 10)
     {
-        let endDate:Date = new Date(current.getFullYear(),10,1)
-        let startDate:Date = new Date(current.getFullYear(),2,1)
+        let endDate:Date = new Date(current.getFullYear(),10,getSunday(10,1))
+        let startDate:Date = new Date(current.getFullYear(),2,getSunday(2,2))
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis - 60*60*1000)/totalMillis
