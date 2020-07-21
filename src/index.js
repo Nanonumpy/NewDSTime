@@ -19,28 +19,40 @@ function getSunday(month, which) {
     }
     return day;
 }
+//checks if the timezone in question follows daylight savings
+function doesDaylight(d) {
+    var jan = new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
+    var jul = new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
+    return Math.max(jan, jul) != d.getTimezoneOffset();
+}
 function dispTime() {
     var current = new Date();
     var offset = 0;
     var month = current.getMonth();
+    var daylightBegin = new Date(current.getFullYear() + 1, 2, getSunday(2, 2), 2);
+    var daylightEnd = new Date(current.getFullYear(), 10, getSunday(10, 1), 2);
     //calculate the offset here
-    //spring forward
-    if (month >= 10 || month < 2) {
+    //fall back
+    if (current > daylightBegin && current < daylightEnd) {
         var endDate = new Date(current.getFullYear() + 1, 2, getSunday(2, 2), 2);
         var startDate = new Date(current.getFullYear(), 10, getSunday(10, 1), 2);
         var totalMillis = (endDate.getTime() - startDate.getTime());
         var currentMillis = (current.getTime() - startDate.getTime());
-        var milliVal = (totalMillis + 60 * 60 * 1000) / totalMillis;
+        var milliVal = (totalMillis - 60 * 60 * 1000) / totalMillis;
         offset = Math.round(currentMillis * milliVal);
         current = startDate;
+        //if daylight savings is not practiced, apply the effect manually for calculations
+        if (!doesDaylight(new Date())) {
+            offset += 1000 * 60 * 60;
+        }
     }
-    //fall back
-    else if (month >= 2 && month < 10) {
+    //spring forward
+    else {
         var endDate = new Date(current.getFullYear(), 10, getSunday(10, 1), 2);
         var startDate = new Date(current.getFullYear(), 2, getSunday(2, 2), 2);
         var totalMillis = (endDate.getTime() - startDate.getTime());
         var currentMillis = (current.getTime() - startDate.getTime());
-        var milliVal = (totalMillis - 60 * 60 * 1000) / totalMillis;
+        var milliVal = (totalMillis + 60 * 60 * 1000) / totalMillis;
         offset = Math.round(currentMillis * milliVal);
         current = startDate;
     }

@@ -24,33 +24,51 @@ function getSunday(month:number, which:number):number
     }
     return day
 }
+
+//checks if the timezone in question follows daylight savings
+function doesDaylight(d:Date):boolean
+{
+    let jan:number = new Date(d.getFullYear(), 0, 1).getTimezoneOffset()
+    let jul:number = new Date(d.getFullYear(), 6, 1).getTimezoneOffset()
+
+    return Math.max(jan, jul) != d.getTimezoneOffset(); 
+}
+
 function dispTime():void
 {
     var current:Date = new Date()
     var offset:number = 0
     var month:number = current.getMonth()
+    let daylightBegin:Date = new Date(current.getFullYear()+1,2,getSunday(2,2),2)
+    let daylightEnd:Date = new Date(current.getFullYear(),10,getSunday(10,1),2)
 
     //calculate the offset here
-    //spring forward
-    if(month >= 10 || month < 2)
+    //fall back
+    if(current > daylightBegin && current < daylightEnd)
     {
         let endDate:Date = new Date(current.getFullYear()+1,2,getSunday(2,2),2)
         let startDate:Date = new Date(current.getFullYear(),10,getSunday(10,1),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
-        let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
+        let milliVal:number = (totalMillis - 60*60*1000)/totalMillis
         offset = Math.round(currentMillis * milliVal)
         current = startDate    
+
+        //if daylight savings is not practiced, apply the effect manually for calculations
+        if(!doesDaylight(new Date()))
+        {
+            offset += 1000 * 60 * 60
+        }
     }
 
-    //fall back
-    else if(month >= 2 && month < 10)
+    //spring forward
+    else 
     {
         let endDate:Date = new Date(current.getFullYear(),10,getSunday(10,1),2)
         let startDate:Date = new Date(current.getFullYear(),2,getSunday(2,2),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
-        let milliVal:number = (totalMillis - 60*60*1000)/totalMillis
+        let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
         offset = Math.round(currentMillis * milliVal)
         current = startDate
         
