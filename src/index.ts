@@ -46,8 +46,8 @@ function dispTime():void
     //fall back
     else if(month >= 2 && month < 10)
     {
-        let endDate:Date = new Date(current.getFullYear(),10,getSunday(10,1))
-        let startDate:Date = new Date(current.getFullYear(),2,getSunday(2,2))
+        let endDate:Date = new Date(current.getFullYear(),10,getSunday(10,1),2)
+        let startDate:Date = new Date(current.getFullYear(),2,getSunday(2,2),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis - 60*60*1000)/totalMillis
