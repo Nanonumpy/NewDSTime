@@ -26,8 +26,8 @@ function dispTime() {
     //calculate the offset here
     //spring forward
     if (month >= 10 || month < 2) {
-        var endDate = new Date(current.getFullYear() + 1, 2, getSunday(2, 2));
-        var startDate = new Date(current.getFullYear(), 10, getSunday(10, 1));
+        var endDate = new Date(current.getFullYear() + 1, 2, getSunday(2, 2), 2);
+        var startDate = new Date(current.getFullYear(), 10, getSunday(10, 1), 2);
         var totalMillis = (endDate.getTime() - startDate.getTime());
         var currentMillis = (current.getTime() - startDate.getTime());
         var milliVal = (totalMillis + 60 * 60 * 1000) / totalMillis;

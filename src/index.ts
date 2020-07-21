@@ -34,8 +34,8 @@ function dispTime():void
     //spring forward
     if(month >= 10 || month < 2)
     {
-        let endDate:Date = new Date(current.getFullYear()+1,2,getSunday(2,2))
-        let startDate:Date = new Date(current.getFullYear(),10,getSunday(10,1))
+        let endDate:Date = new Date(current.getFullYear()+1,2,getSunday(2,2),2)
+        let startDate:Date = new Date(current.getFullYear(),10,getSunday(10,1),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
         let currentMillis:number = (current.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
