@@ -25,7 +25,7 @@ function getSunday(year:number, month:number, which:number):number
     return day
 }
 
-//checks if the timezone in question follows daylight savings
+//checks if the timezone in question observes daylight savings
 function doesDaylight(d:Date):boolean
 {
     let jan:number = new Date(d.getFullYear(), 0, 1).getTimezoneOffset()
