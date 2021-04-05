@@ -42,15 +42,16 @@ function dispTime():void
     var year:number = current.getFullYear()
     let daylightBegin:Date = new Date(year,2,getSunday(year,2,2),2)
     let daylightEnd:Date = new Date(year,10,getSunday(year,10,1),2)
+    let realTime = new Date()
 
     //calculate the offset here
     //fall back
-    if(current >= daylightBegin && current < daylightEnd)
+    if(realTime >= daylightBegin && realTime < daylightEnd)
     {
         let startDate:Date = new Date(year,2,getSunday(year,2,2),2)
         let endDate:Date = new Date(year,10,getSunday(year,10,1),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
-        let currentMillis:number = (current.getTime() - startDate.getTime())
+        let currentMillis:number = (realTime.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis - 60*60*1000)/totalMillis
         offset = Math.round(currentMillis * milliVal)
         current = startDate    
@@ -63,24 +64,24 @@ function dispTime():void
     }
 
     //spring forward
-    else if(current >= daylightEnd)
+    else if(realTime >= daylightEnd)
     {
         let startDate:Date = new Date(year,10,getSunday(year,10,1),2)
         let endDate:Date = new Date(year+1,2,getSunday(year+1,2,2),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
-        let currentMillis:number = (current.getTime() - startDate.getTime())
+        let currentMillis:number = (realTime.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
         offset = Math.round(currentMillis * milliVal)
         current = startDate
         
     }
 
-    else if(current < daylightBegin)
+    else if(realTime < daylightBegin)
     {
         let startDate:Date = new Date(year-1,10,getSunday(year-1,10,1),2)
         let endDate:Date = new Date(year,2,getSunday(year,2,2),2)
         let totalMillis:number = (endDate.getTime() - startDate.getTime())
-        let currentMillis:number = (current.getTime() - startDate.getTime())
+        let currentMillis:number = (realTime.getTime() - startDate.getTime())
         let milliVal:number = (totalMillis + 60*60*1000)/totalMillis
         offset = Math.round(currentMillis * milliVal)
         current = startDate
