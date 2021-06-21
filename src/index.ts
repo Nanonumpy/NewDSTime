@@ -84,7 +84,7 @@ function dispTime():void
         offset = Math.round(currentMillis * milliVal)
         current = startDate
     }
-    var newDate = new Date(current.getTime()+offset);
+    var newDate = new Date(current.getTime()+offset)
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit',
                     hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
     var formatter = new Intl.DateTimeFormat('en-US', options).format;
