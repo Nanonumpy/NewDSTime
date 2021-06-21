@@ -70,4 +70,3 @@ function dispTime() {
     var formatter = new Intl.DateTimeFormat('en-US', options).format;
     document.getElementById("time").innerHTML = formatter(newDate);
 }
-© 2021 GitHub, Inc.
